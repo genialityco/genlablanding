@@ -1,0 +1,9 @@
+export const faqData = [
+  { q: '¿Qué incluye el modelo Llave en Mano?', a: 'Incluye conceptualización, diseño UX/UI personalizado, desarrollo de la experiencia interactiva, alquiler/fabricación de hardware y soporte presencial durante el evento.' },
+  { q: '¿Cuánto tiempo toma desarrollar una activación?', a: 'Para productos de catálogo (Gen.BOX) la personalización toma entre 2 a 3 semanas. Para desarrollos completamente a medida bajo el modelo Llave en Mano, el tiempo promedio es de 6 a 8 semanas.' },
+  { q: '¿Se requiere internet en el evento?', a: 'Nuestros sistemas pueden funcionar 100% offline para garantizar estabilidad. La captura de leads se almacena localmente y se sincroniza cuando hay conexión, o se exporta por USB.' },
+  { q: '¿Tienen cobertura fuera del país?', a: 'Operamos principalmente en LATAM, pero podemos proveer el software de forma remota y asesorar a su proveedor de hardware local en cualquier país.' },
+  { q: '¿Los datos recolectados me pertenecen?', a: 'Absolutamente. Usted es el propietario de todos los datos recolectados. Nosotros proveemos la plataforma bajo estrictos estándares de seguridad y confidencialidad.' },
+  { q: '¿Qué es el Dwell Time y por qué importa?', a: 'El Dwell Time es el tiempo promedio que un visitante permanece interactuando en su stand. Mayor tiempo significa mayor retención del mensaje y mayor probabilidad de conversión.' },
+  { q: '¿Puedo integrar los leads a mi CRM (Salesforce, HubSpot)?', a: 'Sí, contamos con integraciones vía API para enviar los leads capturados en tiempo real a su CRM, o puede exportarlos fácilmente en formato CSV.' }
+];
