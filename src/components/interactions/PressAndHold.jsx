@@ -71,13 +71,14 @@ export function PressAndHold() {
   return (
     <div 
       ref={containerRef}
-      style={{ position: 'relative', width: '100%', aspectRatio: '4/3', cursor: 'pointer', touchAction: 'none', borderRadius: '1rem', overflow: 'hidden' }}
+      style={{ position: 'relative', width: '100%', aspectRatio: '4/3', cursor: 'pointer', touchAction: 'none', userSelect: 'none', WebkitUserSelect: 'none', borderRadius: '1rem', overflow: 'hidden' }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
+      onContextMenu={(e) => e.preventDefault()} // Prevent contextual menu on mobile devices
     >
-      <div className="stand-gris" style={{ position: 'absolute', inset: 0, background: 'var(--gl-bg-elevated)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--gl-gray-dark)' }}>
+      <div className="stand-gris" style={{ position: 'absolute', inset: 0, background: 'var(--gl-bg-elevated)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--gl-gray-dark)', pointerEvents: 'none' }}>
         <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="var(--gl-gray-mid)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 3v18h18"/>
           <path d="M18 17V9"/>
@@ -85,7 +86,7 @@ export function PressAndHold() {
           <path d="M8 17v-3"/>
         </svg>
       </div>
-      <div className="stand-color" style={{ position: 'absolute', inset: 0, background: 'var(--gl-blue-deep)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, border: '1px solid var(--gl-blue-primary)' }}>
+      <div className="stand-color" style={{ position: 'absolute', inset: 0, background: 'var(--gl-blue-deep)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, border: '1px solid var(--gl-blue-primary)', pointerEvents: 'none' }}>
         <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="var(--gl-orange)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 3v18h18"/>
           <path d="M18 17V9"/>
@@ -95,7 +96,7 @@ export function PressAndHold() {
       </div>
 
       {!isActive && (
-        <div className="tooltip hint-pulse" style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', background: 'var(--gl-bg)', padding: '0.5rem 1rem', borderRadius: '999px', fontSize: 'var(--text-tag)', border: '1px solid var(--gl-gray-mid)', whiteSpace: 'nowrap' }}>
+        <div className="tooltip hint-pulse" style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', background: 'var(--gl-bg)', padding: '0.5rem 1rem', borderRadius: '999px', fontSize: 'var(--text-tag)', border: '1px solid var(--gl-gray-mid)', whiteSpace: 'nowrap', pointerEvents: 'none' }}>
           {isMobile ? 'Mantén el dedo presionado' : 'Mantén presionado para activar Gen.Lab'}
         </div>
       )}
@@ -121,7 +122,7 @@ export function PressAndHold() {
         </div>
       )}
 
-      <div style={{ position: 'absolute', bottom: '1rem', right: '1rem', background: 'rgba(10, 20, 25, 0.8)', padding: '0.5rem 1rem', borderRadius: '4px', border: '1px solid var(--gl-gray-dark)' }}>
+      <div style={{ position: 'absolute', bottom: '1rem', right: '1rem', background: 'rgba(10, 20, 25, 0.8)', padding: '0.5rem 1rem', borderRadius: '4px', border: '1px solid var(--gl-gray-dark)', pointerEvents: 'none' }}>
         <span className="font-display text-small" style={{ letterSpacing: '0.05em' }}>ATENCIÓN: <span className="contador text-orange" style={{ color: 'var(--gl-orange)' }}>8s</span></span>
       </div>
     </div>

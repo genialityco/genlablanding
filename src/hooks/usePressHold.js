@@ -13,7 +13,8 @@ export function usePressHold({ duration = 1500, onComplete, onCancel }) {
     if (!startPosRef.current) return;
     const dx = e.clientX - startPosRef.current.x;
     const dy = e.clientY - startPosRef.current.y;
-    if (Math.sqrt(dx*dx + dy*dy) > 10) {
+    // Increased tolerance to 30px so natural finger/mouse tremors don't cancel it
+    if (Math.sqrt(dx*dx + dy*dy) > 30) {
       clearTimeout(timerRef.current);
       onCancel?.();
       startPosRef.current = null;

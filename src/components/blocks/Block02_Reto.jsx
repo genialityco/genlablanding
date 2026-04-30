@@ -1,6 +1,6 @@
 import React from 'react';
 import { Section } from '../layout/Section';
-import { PressAndHold } from '../interactions/PressAndHold';
+import { AttentionChallenge } from '../interactions/AttentionChallenge';
 
 export function Block02_Reto() {
   return (
@@ -18,7 +18,7 @@ export function Block02_Reto() {
           </p>
         </div>
         <div style={{ flex: '1 1 500px' }}>
-          <PressAndHold />
+          <AttentionChallenge />
         </div>
       </div>
     </Section>
