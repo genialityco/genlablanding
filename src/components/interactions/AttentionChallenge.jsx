@@ -1,15 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { PerspectiveCamera, Edges, OrbitControls, Html } from '@react-three/drei';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import * as THREE from 'three';
 import { Avatar } from './Avatar';
 import gsap from 'gsap';
-import { useState, useEffect } from 'react';
 
 function Stand({ score, isGameOver }) {
   const isHigh = score >= 8;
   const isMid = score >= 4 && score < 8;
 
-  const outlineColor = (isGameOver && isHigh) ? "#FB8F00" : "#133851";
+  const baseOutline = useMemo(() => new THREE.Color("#133851"), []);
+  const glowOutline = useMemo(() => new THREE.Color("#FB8F00").multiplyScalar(3), []); 
+  const outlineColor = (isGameOver && isHigh) ? glowOutline : baseOutline;
+  
   const mainColor = (isGameOver && isMid) ? "#01678A" : "#8F9194";
 
   return (
@@ -58,30 +62,81 @@ function FloorGrid() {
   );
 }
 
-function AnimatedAvatar({ delay, onCapture, active }) {
+function SuccessParticles({ active }) {
+  const mesh = useRef();
+  const count = 100;
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const particles = useMemo(() => {
+    const temp = [];
+    for (let i = 0; i < count; i++) {
+      temp.push({
+        x: (Math.random() - 0.5) * 15,
+        y: (Math.random() - 0.5) * 10,
+        z: (Math.random() - 0.5) * 15,
+        speed: Math.random() * 0.05 + 0.01
+      });
+    }
+    return temp;
+  }, [count]);
+
+  useFrame(() => {
+    if (!active || !mesh.current) return;
+    particles.forEach((particle, i) => {
+      particle.y += particle.speed;
+      if (particle.y > 8) particle.y = -5;
+      dummy.position.set(particle.x, particle.y, particle.z);
+      dummy.updateMatrix();
+      mesh.current.setMatrixAt(i, dummy.matrix);
+    });
+    mesh.current.instanceMatrix.needsUpdate = true;
+  });
+
+  if (!active) return null;
+
+  return (
+    <instancedMesh ref={mesh} args={[null, null, count]}>
+      <sphereGeometry args={[0.08, 8, 8]} />
+      {/* Using a strong emissive color to trigger bloom */}
+      <meshBasicMaterial color={[5, 2.5, 0]} toneMapped={false} />
+    </instancedMesh>
+  );
+}
+
+function AnimatedAvatar({ delay, onCapture, active, xOffset }) {
   const groupRef = useRef();
   const htmlRef = useRef();
   const [captured, setCaptured] = useState(false);
   const [showTarget, setShowTarget] = useState(false);
 
   useEffect(() => {
-    if (!active || captured) return;
+    if (!active) {
+       // Reset state when game restarts
+       setCaptured(false);
+       setShowTarget(false);
+       if (groupRef.current) {
+         groupRef.current.position.z = 20;
+         groupRef.current.rotation.y = 0;
+         gsap.killTweensOf(groupRef.current.position);
+         gsap.killTweensOf(groupRef.current.rotation);
+       }
+       return;
+    }
     
     // Spawn animation starting from far Z to close Z
     gsap.fromTo(groupRef.current.position,
-      { z: 15 },
-      { z: -5, duration: 6, ease: "none", delay: delay }
+      { z: 20 },
+      { z: -10, duration: 8, ease: "none", delay: delay }
     );
 
     // Show target halfway through
-    const timer = setTimeout(() => setShowTarget(true), (delay + 3) * 1000);
-    const hideTimer = setTimeout(() => setShowTarget(false), (delay + 4.2) * 1000);
+    const timer = setTimeout(() => setShowTarget(true), (delay + 3.5) * 1000);
+    const hideTimer = setTimeout(() => setShowTarget(false), (delay + 4.8) * 1000);
 
     return () => {
       clearTimeout(timer);
       clearTimeout(hideTimer);
     }
-  }, [active, captured, delay]);
+  }, [active, delay]);
 
   const handleClick = (e) => {
     e.stopPropagation();
@@ -96,8 +151,9 @@ function AnimatedAvatar({ delay, onCapture, active }) {
   };
 
   return (
-    <group ref={groupRef} position={[2, 0, 15]}>
-      <Avatar />
+    <group ref={groupRef} position={[xOffset, 0, 20]}>
+      {/* Mixamo models face -Z by default, rotate Math.PI so they walk forward */}
+      <Avatar rotation={[0, Math.PI, 0]} />
       {showTarget && (
         <Html ref={htmlRef} position={[0, 4, 0]} center>
           <div 
@@ -167,13 +223,24 @@ export function AttentionChallenge() {
           <FloorGrid />
           <Stand score={score} isGameOver={isGameOver} />
           
-          {/* Spawning Avatars */}
-          <AnimatedAvatar delay={0} onCapture={() => setScore(s => s + 1)} active={isPlaying} />
-          <AnimatedAvatar delay={1.5} onCapture={() => setScore(s => s + 1)} active={isPlaying} />
-          <AnimatedAvatar delay={3} onCapture={() => setScore(s => s + 1)} active={isPlaying} />
-          <AnimatedAvatar delay={4.5} onCapture={() => setScore(s => s + 1)} active={isPlaying} />
-          <AnimatedAvatar delay={6} onCapture={() => setScore(s => s + 1)} active={isPlaying} />
+          <SuccessParticles active={isGameOver && score >= 8} />
+
+          {/* Spawning 10 Avatars to make it challenging */}
+          {[...Array(10)].map((_, i) => (
+             <AnimatedAvatar 
+                key={i} 
+                delay={i * 0.8} 
+                xOffset={1 + (Math.random() * 2 - 1)} 
+                onCapture={() => setScore(s => s + 1)} 
+                active={isPlaying} 
+             />
+          ))}
         </group>
+        
+        {/* Postprocessing Bloom. Only colors > 1 will glow (our glowing outlines and particles) */}
+        <EffectComposer>
+          <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} />
+        </EffectComposer>
         
       </Canvas>
     </div>
