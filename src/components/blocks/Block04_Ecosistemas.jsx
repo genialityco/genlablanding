@@ -23,7 +23,7 @@ function EcoCard({ eco, index }) {
     <div 
       className="eco-card"
       style={{
-        '--base-y': index === 2 ? '2rem' : '0rem',
+        '--base-y': index === 2 ? '0rem' : '0rem',
         flex: '1 1 300px',
         backgroundColor: 'var(--gl-bg-elevated)',
         borderRadius: '1rem',

@@ -59,17 +59,17 @@ export function Block01_Hero() {
       <Container className="hero-content" style={{ position: 'relative', zIndex: 1, paddingBottom: '2rem' }}>
         <div style={{ maxWidth: '900px' }}>
           <h1 className="text-display text-primary" style={{ marginBottom: '1.5rem', color: 'white' }}>
-            Convierta su evento en una experiencia que la gente no solo visita... la recuerda.
+            Convierta su evento en una experiencia que las personas  no solo visitan... lo recuerdan.
           </h1>
           <p className="text-body-lg text-secondary" style={{ marginBottom: '3rem', maxWidth: '700px' }}>
-            Gen.Lab es el portafolio de experiencias interactivas de Geniality. Atrae tráfico real, genera interacción significativa y captura datos accionables. La tecnología no es decoración — es el motor de sus ventas. 
+            Gen.Lab es el portafolio de experiencias interactivas de Geniality. Atrae tráfico real, genera interacción significativa y captura datos accionables. La tecnología no es decoración — es el motor de atracción, para cumplir sus metas. 
 
-Stand de feria, lanzamiento de producto, activación de canal, evento corporativo o experiencia de marca: Gen.Lab transforma cualquier espacio en interacción que se mide. </p>
+Stand de feria, lanzamiento de producto, activación de canal, evento corporativo o experiencia de marca: Gen.Lab transforma cualquier espacio en interacción con mediciones y resultados. </p>
           
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <Button variant="primary">Agendar demo de 15 min</Button>
+            {/* <Button variant="primary">Agendar demo de 15 min</Button>
             <Button variant="outline">Ver experiencias en video</Button>
-            <Button variant="outline">Descargar portafolio PDF</Button>
+            <Button variant="outline">Descargar portafolio PDF</Button> */}
           </div>
         </div>
       </Container>

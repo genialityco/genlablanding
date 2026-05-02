@@ -27,7 +27,7 @@ export function Block03_Como() {
     <div style={{ backgroundColor: 'var(--gl-bg-light)', color: 'var(--gl-text-on-light)' }}>
       <Section id="como" number="03" title="CÓMO FUNCIONA">
         <h2 className="text-h2" style={{ marginBottom: '4rem', maxWidth: '800px' }}>
-          Así de simple para usted. Así de potente para su marca.
+          Así de sencillo y eficiente. Así de potente para su marca.
         </h2>
 
         <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', gap: '2rem', flexWrap: 'wrap' }}>
@@ -35,9 +35,9 @@ export function Block03_Como() {
             <line ref={lineRef} x1="0" y1="1" x2="100%" y2="1" stroke="var(--gl-blue-primary)" strokeWidth="2" />
           </svg>
 
-          <Step number="1" text="Elegimos juntos la experiencia ideal según su objetivo." />
-          <Step number="2" text="Personalizamos todo con su marca." />
-          <Step number="3" text="Su equipo solo se concentra en vender." />
+          <Step number="1" text="Elegimos juntos la experiencia ideal según su objetivo, ya sea una de las experiencias existentes probadas o una a la medida." />
+          <Step number="2" text="Personalizamos con su estilo, cuidando lo que desea comunicar y cómo desean que lo persiban." />
+          <Step number="3" text="Su equipo solo se concentra en aprovechar la creación para sorprender, atraer, aumentar la satisfacción." />
         </div>
       </Section>
     </div>
