@@ -5,6 +5,7 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { Avatar } from './Avatar';
 import gsap from 'gsap';
+import { BusinessCloseModal } from './BusinessCloseModal';
 
 // Optional: you can hook into a real reduced motion hook if available
 // import { useReducedMotion } from 'framer-motion';
@@ -281,9 +282,9 @@ function BlastRing() {
   );
 }
 
-function AvatarMesh({ data, reducedMotion, difficulty }) {
+function AvatarMesh({ data, reducedMotion, difficulty, isGamePaused }) {
   const groupRef = useRef();
-  
+
   useFrame(() => {
     if (groupRef.current) {
        groupRef.current.visible = data.visible;
@@ -304,24 +305,36 @@ function AvatarMesh({ data, reducedMotion, difficulty }) {
 
   return (
     <group ref={groupRef} position={[data.x, 0, data.z]} visible={false}>
-      <Avatar 
-        rotation={[0, Math.PI, 0]} 
+      <Avatar
+        rotation={[0, Math.PI, 0]}
         archetype={{ ...data.type, walkSpeed: timeScale }}
-        paused={data.paused || (reducedMotion && !data.captured)}
+        paused={data.paused || isGamePaused || (reducedMotion && !data.captured)}
         isCaptured={data.captured}
       />
     </group>
   );
 }
 
-function GameEngine({ isPlaying, avatarsRef, reducedMotion, onUiStateChange, onMiss, endGame, startTimeRef, difficulty, timerUiRef, hasAutoActivatedRef, onAutoActivate }) {
+function GameEngine({ isPlaying, isGamePausedRef, pauseStartClockRef, totalPausedTimeRef, avatarsRef, reducedMotion, onUiStateChange, onMiss, endGame, startTimeRef, difficulty, timerUiRef, hasAutoActivatedRef, onAutoActivate }) {
    useFrame((state, delta) => {
      if (!isPlaying) return;
+
+     if (isGamePausedRef.current) {
+       if (pauseStartClockRef.current === 0) {
+         pauseStartClockRef.current = state.clock.elapsedTime;
+       }
+       return;
+     }
+
+     if (pauseStartClockRef.current > 0) {
+       totalPausedTimeRef.current += state.clock.elapsedTime - pauseStartClockRef.current;
+       pauseStartClockRef.current = 0;
+     }
 
      if (startTimeRef.current === 0) {
          startTimeRef.current = state.clock.elapsedTime;
      }
-     const gameTime = state.clock.elapsedTime - startTimeRef.current;
+     const gameTime = state.clock.elapsedTime - startTimeRef.current - totalPausedTimeRef.current;
      
      if (gameTime >= 4.45 && !hasAutoActivatedRef.current) {
          hasAutoActivatedRef.current = true;
@@ -436,6 +449,13 @@ export function AttentionChallenge() {
   const timerUiRef = useRef(null);
   const magnetButtonRef = useRef(null);
   const hasAutoActivatedRef = useRef(false);
+
+  // Business close challenge
+  const [businessChallengeActive, setBusinessChallengeActive] = useState(false);
+  const [isGamePaused, setIsGamePaused] = useState(false);
+  const isGamePausedRef = useRef(false);
+  const pauseStartClockRef = useRef(0);
+  const totalPausedTimeRef = useRef(0);
   
   const isMobile = window.innerWidth < 768;
   const reducedMotion = false; // Could hook to useReducedMotion()
@@ -445,6 +465,7 @@ export function AttentionChallenge() {
 
   const [difficulty, setDifficulty] = useState(null);
   const [showDifficultySelector, setShowDifficultySelector] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
 
   const endGame = useCallback((reason = 'timer_end') => {
@@ -467,6 +488,11 @@ export function AttentionChallenge() {
 
   const handleInitiate = () => {
       setIsGameOver(false);
+      setShowInstructions(true);
+  };
+
+  const handleStartFromInstructions = () => {
+      setShowInstructions(false);
       setShowDifficultySelector(true);
   };
 
@@ -519,6 +545,11 @@ export function AttentionChallenge() {
 
     hasAutoActivatedRef.current = false;
     startTimeRef.current = 0;
+    pauseStartClockRef.current = 0;
+    totalPausedTimeRef.current = 0;
+    isGamePausedRef.current = false;
+    setIsGamePaused(false);
+    setBusinessChallengeActive(false);
     setIsPlaying(true);
     setIsGameOver(false);
     setScore(0);
@@ -557,6 +588,29 @@ export function AttentionChallenge() {
       setTimeout(() => setScoreFlash(false), 250);
   };
 
+  const openBusinessChallenge = useCallback(() => {
+    if (businessChallengeActive) return;
+    isGamePausedRef.current = true;
+    setIsGamePaused(true);
+    setBusinessChallengeActive(true);
+  }, [businessChallengeActive]);
+
+  const onBusinessSuccess = useCallback(() => {
+    setBusinessChallengeActive(false);
+    isGamePausedRef.current = false;
+    setIsGamePaused(false);
+    // +12 bonus: base was +3, target is x5 = 15, so bonus = 12
+    setScore(s => s + 12);
+    setScoreFlash(true);
+    setTimeout(() => setScoreFlash(false), 250);
+  }, []);
+
+  const onBusinessFailure = useCallback(() => {
+    setBusinessChallengeActive(false);
+    isGamePausedRef.current = false;
+    setIsGamePaused(false);
+  }, []);
+
   const evaluateCapture = () => {
       const blastId = Math.random();
       setBlasts(prev => [...prev, { id: blastId }]);
@@ -578,15 +632,20 @@ export function AttentionChallenge() {
             const isExcelente = dist <= (windowTolerance * 0.3);
             const mult = streak >= 3 ? streak : 1;
             const points = closestAvatar.type.value * mult * (isExcelente ? 3 : 1);
-            
+
             closestAvatar.captured = true;
             setScore(s => s + points);
             setStreak(s => s + 1);
             setCaptures(c => ({ ...c, [closestAvatar.type.id]: c[closestAvatar.type.id] + 1 }));
-            
+
             addFeedback(`${isExcelente ? 'EXCELENTE' : 'BIEN'} +${points}`, closestAvatar.x, closestAvatar.z, closestAvatar.type.color);
             setFlashColor(isExcelente ? 'white' : 'rgba(255,255,255,0.5)');
             setTimeout(() => setFlashColor(null), 80);
+
+            // Trigger business close challenge on PERFECT ORANGE capture
+            if (isExcelente && closestAvatar.type.id === 'ORANGE') {
+              setTimeout(() => openBusinessChallenge(), 120);
+            }
 
          } else if (dist < windowTolerance * 3.0) {
             // CERCA (TEMPRANO o tarde cercano)
@@ -625,12 +684,30 @@ export function AttentionChallenge() {
   return (
     <div style={{ width: '100%', height: isMobile ? '80vh' : '580px', backgroundColor: 'var(--gl-bg-light)', borderRadius: '1rem', overflow: 'hidden', position: 'relative', touchAction: 'pan-y' }}>
       
-      {!isPlaying && !isGameOver && !showDifficultySelector && (
+      {!isPlaying && !isGameOver && !showDifficultySelector && !showInstructions && (
         <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', padding: '3rem 1rem', zIndex: 10, background: 'rgba(244,245,246,0.6)' }}>
-           <h3 style={{ color: '#133851', textAlign: 'center', maxWidth: '80%', fontSize: '1.2rem', lineHeight: '1.4', background: 'rgba(255,255,255,0.8)', padding: '1rem', borderRadius: '8px' }}>
-              Prueba el reto de atraer la mayor cantidad de asistentes a tu stand. ¿Cuántos podrás conseguir?
-           </h3>
+           <div style={{ textAlign: 'center', maxWidth: '80%', background: 'rgba(255,255,255,0.8)', padding: '1rem', borderRadius: '8px' }}>
+             <h3 style={{ color: '#133851', fontSize: '1.2rem', lineHeight: '1.4', margin: '0 0 0.75rem 0' }}>
+               Prueba el reto de atraer la mayor cantidad de asistentes a tu stand. ¿Cuántos podrás conseguir?
+             </h3>
+             <p style={{ color: 'rgba(19,56,81,0.7)', fontSize: '0.875rem', fontStyle: 'italic', margin: 0, lineHeight: '1.4' }}>
+               Captura los visitantes correctos. Y cuando atrapes a un decisor, prepárate para cerrar negocio en vivo.
+             </p>
+           </div>
            <button onClick={handleInitiate} className="btn btn-primary" style={{ cursor: 'pointer', pointerEvents: 'auto', padding: '1rem 2rem', fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '2rem' }}>INICIAR EL RETO</button>
+        </div>
+      )}
+
+      {showInstructions && (
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem 1rem 2rem', zIndex: 10, background: 'transparent', pointerEvents: 'none' }}>
+          <div style={{ textAlign: 'center', maxWidth: '480px', width: '100%', background: 'rgba(255,255,255,0.95)', padding: '1rem 1.25rem', borderRadius: '12px', pointerEvents: 'auto' }}>
+            <p style={{ color: '#133851', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
+              Puedes atraer <strong>3 tipos de asistentes</strong> que te darán puntajes diferentes. El naranja te da más puntos, pero es más difícil de atraer. Para atraerlos, pulsa <strong>ACTIVAR IMÁN</strong> cuando el avatar está pasando por el centro del rombo frente al stand, y listo.
+            </p>
+          </div>
+          <button onClick={handleStartFromInstructions} className="btn btn-primary" style={{ cursor: 'pointer', padding: '0.9rem 2.5rem', fontSize: '1.1rem', fontWeight: 'bold', pointerEvents: 'auto' }}>
+            ARRANCAR EL JUEGO
+          </button>
         </div>
       )}
 
@@ -749,9 +826,12 @@ export function AttentionChallenge() {
           <MagnetBlasts blasts={blasts} />
           <SuccessParticles active={isGameOver && score >= 19} />
 
-          <GameEngine 
-             isPlaying={isPlaying} 
-             avatarsRef={avatarsRef} 
+          <GameEngine
+             isPlaying={isPlaying}
+             isGamePausedRef={isGamePausedRef}
+             pauseStartClockRef={pauseStartClockRef}
+             totalPausedTimeRef={totalPausedTimeRef}
+             avatarsRef={avatarsRef}
              reducedMotion={reducedMotion}
              onUiStateChange={onUiStateChange}
              onMiss={onMiss}
@@ -764,23 +844,37 @@ export function AttentionChallenge() {
           />
 
           {avatarsRef.current.map((av) => (
-             <AvatarMesh key={av.id} data={av} reducedMotion={reducedMotion} difficulty={difficulty} />
+             <AvatarMesh key={av.id} data={av} reducedMotion={reducedMotion} difficulty={difficulty} isGamePaused={isGamePaused} />
           ))}
 
-          {!isPlaying && !isGameOver && (
-             <AvatarMesh 
-                data={{
-                  id: 'dummy',
-                  type: ARCHETYPES.BLUE,
-                  visible: true,
-                  z: -2,
-                  x: 1,
-                  captured: false,
-                  paused: false
-                }}
-                reducedMotion={reducedMotion} 
-                difficulty={null} 
+          {!isPlaying && !isGameOver && !showInstructions && (
+             <AvatarMesh
+                data={{ id: 'dummy', type: ARCHETYPES.BLUE, visible: true, z: -2, x: 1, captured: false, paused: false }}
+                reducedMotion={reducedMotion}
+                difficulty={null}
              />
+          )}
+
+          {showInstructions && (
+            <>
+              <AvatarMesh data={{ id: 'dummy-gray',   type: ARCHETYPES.GRAY,   visible: true, z: -2, x: -1, captured: false, paused: false }} reducedMotion={reducedMotion} difficulty={null} />
+              <AvatarMesh data={{ id: 'dummy-blue',   type: ARCHETYPES.BLUE,   visible: true, z: -2, x: 1,  captured: false, paused: false }} reducedMotion={reducedMotion} difficulty={null} />
+              <AvatarMesh data={{ id: 'dummy-orange', type: ARCHETYPES.ORANGE, visible: true, z: -2, x: 3,  captured: false, paused: false }} reducedMotion={reducedMotion} difficulty={null} />
+              {[
+                { type: ARCHETYPES.GRAY,   name: 'GRIS',    diff: 'Fácil',    x: -1 },
+                { type: ARCHETYPES.BLUE,   name: 'AZUL',    diff: 'Medio',    x: 1  },
+                { type: ARCHETYPES.ORANGE, name: 'NARANJA', diff: 'Difícil',  x: 3  },
+              ].map(({ type, name, diff, x }) => (
+                <Html key={`lbl-${type.id}`} position={[x, 5, -2]} center zIndexRange={[20, 15]}>
+                  <div style={{ background: 'rgba(255,255,255,0.96)', border: `2px solid ${type.color}`, borderRadius: '8px', padding: '0.3rem 0.5rem', textAlign: 'center', minWidth: '62px', boxShadow: '0 2px 8px rgba(0,0,0,0.18)', pointerEvents: 'none', fontFamily: 'Space Grotesk, sans-serif' }}>
+                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: type.color, margin: '0 auto 0.2rem' }} />
+                    <div style={{ fontWeight: 700, color: '#0A1419', fontSize: '0.65rem', letterSpacing: '0.04em' }}>{name}</div>
+                    <div style={{ color: type.color, fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.1 }}>{type.value} pt{type.value > 1 ? 's' : ''}</div>
+                    <div style={{ color: '#6D6E71', fontSize: '0.6rem', marginTop: '0.1rem' }}>{diff}</div>
+                  </div>
+                </Html>
+              ))}
+            </>
           )}
 
           {feedbacks.map(f => (
@@ -902,6 +996,14 @@ export function AttentionChallenge() {
           }
         }
       `}</style>
+
+      {/* Business Close Challenge overlay */}
+      <BusinessCloseModal
+        isVisible={businessChallengeActive}
+        onSuccess={onBusinessSuccess}
+        onFailure={onBusinessFailure}
+        isMobile={isMobile}
+      />
 
       {/* Magnet Button */}
       {isPlaying && (
