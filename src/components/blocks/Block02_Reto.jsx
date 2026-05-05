@@ -14,7 +14,7 @@ export function Block02_Reto() {
             Las pantallas pasivas no detienen a nadie. El material POP termina en la basura. Y los formularios tradicionales espantan a los leads antes de capturarlos.
           </p>
           <p className="text-body-lg text-secondary">
-            Gen.Lab resuelve esto con una premisa simple: el visitante deja de observar su marca y empieza a descubrirla interactuando.
+            Gen.Lab resuelve esto con una premisa simple: el visitante deja de observar su evento y empieza a descubrirlo interactuando.
           </p>
         </div>
         <div style={{ flex: '1 1 500px' }}>

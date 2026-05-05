@@ -24,7 +24,7 @@ function App() {
         <Block01_Hero />
         <Block02_Reto />
         
-        <Marquee text="ATENCIÓN CAPTURADA · 4:12 MIN PROMEDIO · +340% RECORDACIÓN · " />
+        <Marquee text="El contenido interactivo genera 2.7× más engagement que los formatos pasivos según el benchmark 2026 de Demand Metric (la cifra clásica de 52.6% se quedó corta; se amplió en los últimos dos años " />
         
         <Block03_Como />
         <Block04_Ecosistemas />
