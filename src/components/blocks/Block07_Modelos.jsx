@@ -4,7 +4,7 @@ import { Button } from '../ui/Button';
 
 export function Block07_Modelos() {
   return (
-    <Section id="modelos" number="07" title="MODELOS">
+    <Section id="modelos" number="10" title="MODELOS">
       <div style={{ marginBottom: '4rem', maxWidth: '760px' }}>
         <h2 className="text-h2" style={{ marginBottom: '1.5rem' }}>
           Tres formas de trabajar con nosotros. Elija según su operación y su frecuencia.

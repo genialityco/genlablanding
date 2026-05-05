@@ -12,7 +12,7 @@ const metrics = [
 export function Block05_Datos() {
   return (
     <div style={{ backgroundColor: 'var(--gl-bg-light)', color: 'var(--gl-text-on-light)' }}>
-      <Section id="datos" number="05" title="INTELIGENCIA DE DATOS">
+      <Section id="datos" number="08" title="INTELIGENCIA DE DATOS">
         <h2 className="text-h2" style={{ marginBottom: '1.5rem', maxWidth: '800px' }}>
           Usted no adivina resultados. Los mide.
         </h2>

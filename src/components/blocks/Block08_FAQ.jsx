@@ -16,13 +16,13 @@ export function Block08_FAQ() {
   };
 
   return (
-    <Section id="faq" number="08" title="FAQ">
+    <Section id="faq" number="11" title="FAQ">
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem', alignItems: 'flex-start' }}>
         <div style={{ flex: '1 1 300px', position: 'sticky', top: '100px' }}>
           <h2 className="text-h2" style={{ marginBottom: '1rem' }}>Preguntas frecuentes</h2>
           <div style={{ padding: '1rem', backgroundColor: 'var(--gl-bg-elevated)', borderRadius: '0.5rem', display: 'inline-block' }}>
             <span className="text-orange" style={{ color: 'var(--gl-orange)', fontWeight: '700', fontSize: '1.5rem' }}>{openCount}</span>
-            <span className="text-secondary"> / {faqData.length} resueltas</span>
+            <span className="text-secondary"> / 13 resueltas</span>
           </div>
         </div>
         

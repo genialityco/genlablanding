@@ -62,9 +62,8 @@ export function Block01_Hero() {
             Convierta su evento en una experiencia que las personas  no solo visitan... lo recuerdan.
           </h1>
           <p className="text-body-lg text-secondary" style={{ marginBottom: '3rem', maxWidth: '700px' }}>
-            Gen.Lab es el portafolio de experiencias interactivas de Geniality. Atrae tráfico real, genera interacción significativa y captura datos accionables. La tecnología no es decoración — es el motor de atracción, para cumplir sus metas. 
-<br />
-Stand de feria, lanzamiento de producto, activación de canal, evento corporativo o experiencia de marca: Gen.Lab transforma cualquier espacio en interacción con mediciones y resultados. </p>
+            Diseñamos y operamos experiencias interactivas — pantallas, sensores, juegos físico-digitales — que detienen a la gente, la hacen jugar, y le entregan a usted un reporte con quién pasó, cuánto tiempo y qué hizo. Stand de feria, lanzamiento de producto, activación de canal, evento corporativo: Gen.Lab transforma cualquier espacio en interacción medible.
+          </p>
           
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             {/* <Button variant="primary">Agendar demo de 15 min</Button>

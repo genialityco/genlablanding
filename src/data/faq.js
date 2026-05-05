@@ -1,5 +1,13 @@
 export const faqData = [
   {
+    q: '¿Tienen un catálogo listo para usar o todo es a la medida?',
+    a: 'Tenemos las dos opciones. Nuestro catálogo incluye experiencias probadas en los tres ecosistemas (Touch, Motion & Vision, Phygital), listas para brandear y activar en 5 a 10 días. Cuando el evento amerita algo único, diseñamos experiencias a la medida en un proceso de 4 a 5 semanas. La diferencia principal es tiempo de entrega y nivel de personalización del concepto: el catálogo personaliza la marca sobre una mecánica probada; a la medida diseña la mecánica desde cero.'
+  },
+  {
+    q: '¿Qué hardware necesito tener yo, y qué ponen ustedes?',
+    a: 'Usted no tiene que tener nada. En el modelo Llave en Mano nosotros llevamos pantallas, tótems, computadores, sensores y todo lo necesario, montamos el día anterior y desmontamos al cierre. Si activa varios eventos al año y prefiere comprar la infraestructura una vez, existe el modelo Gen.BOX + Licencia, donde usted adquiere la base técnica estandarizada y nosotros licenciamos las experiencias por activación.'
+  },
+  {
     q: '¿Qué tipo de empresa o evento puede usar Gen.Lab?',
     a: 'Cualquiera que reúna gente y quiera comunicar algo. Marcas que activan en ferias y centros comerciales. Empresas que organizan convenciones internas. Agencias BTL y productoras de eventos. Restaurantes y bares (con nuestra línea Gen.Terac). Universidades en lanzamientos. ONG en eventos de conciencia social. Si hay personas, atención disputada y un mensaje que entregar, Gen.Lab tiene una solución.'
   },
