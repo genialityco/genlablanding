@@ -9,7 +9,7 @@ export function Block09_Cierre() {
     <Section id="cierre" number="09" title="CIERRE">
       <div style={{ textAlign: 'center', marginBottom: '4rem', maxWidth: '800px', marginInline: 'auto' }}>
         <h2 className="text-display" style={{ marginBottom: '1.5rem' }}>
-          Hoy en un evento, la atención es el recurso más escaso.
+          La atención es el recurso más escaso en cualquier espacio.
         </h2>
         <p className="text-body-lg text-secondary" style={{ marginBottom: '2rem' }}>
           Las marcas que ganan no son las que más invierten en espacio. Son las que logran que las personas se detengan, participen y recuerden.

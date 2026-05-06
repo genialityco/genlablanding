@@ -1,5 +1,6 @@
 import React from 'react';
 import { Section } from '../layout/Section';
+import experienciaImg from '../../assets/images/03 LA EXPERIENCIA.png';
 
 export function Block03_Como() {
   return (
@@ -9,26 +10,36 @@ export function Block03_Como() {
           No es lo mismo ver que vivir.
         </h2>
 
-        <div style={{ marginBottom: '4rem' }}>
-          <p className="text-body" style={{ color: 'var(--gl-gray-dark)', marginBottom: '1rem', maxWidth: '600px' }}>
-            Para ser espectador ya están el cine y Netflix. Lo que la gente recuerda de un evento no es lo que leyó en
-            un pendón — es lo que sintió. Lo que la hizo decidir, equivocarse, ganar, mostrarle al de al lado.
-          </p>
-          <p className="text-body" style={{ color: 'var(--gl-gray-dark)', marginBottom: '1rem', maxWidth: '600px' }}>
-            ¿Recuerda el último material impreso que le entregaron en una feria? ¿Recuerda algo que lo hizo emocionarse?
-            Esa diferencia es lo que construimos.
-          </p>
-          <h3 className="text-h3" style={{ margin: '0.5rem', color: 'var(--gl-text-on-light)', maxWidth: '600px' }}>
-            Una experiencia Gen.Lab le permite al visitante interactuar, dejar su sello y recibir algo personalizado —
-          </h3>
-          <p className="text-body" style={{ color: 'var(--gl-gray-dark)', marginTop: '2rem', maxWidth: '600px' }}>
-            Saber que su forma de pensar importa, que no todo es genérico. Puede tocar, retar, explorar, fabricar,
-            competir, fotografiarse, llevarse un avatar suyo. Y mientras lo hace, su marca está alrededor — no encima.
-            Detrás hay un ecosistema completo: un catálogo de experiencias listas para usar, desarrollo a la medida
-            cuando lo necesita, y hardware modular que opera en cualquier parte del mundo. Sensores de movimiento,
-            pantallas táctiles, proyección, cámaras 3D, impresión instantánea — la herramienta correcta para el momento
-            que quiere crear.
-          </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'flex-start', marginBottom: '4rem' }}>
+          <div style={{ flex: '1 1 340px' }}>
+            <p className="text-body" style={{ color: 'var(--gl-gray-dark)', marginBottom: '1rem' }}>
+              Para ser espectador ya están el cine y Netflix. Lo que la gente recuerda de un evento no es lo que leyó en
+              un pendón — es lo que sintió. Lo que la hizo decidir, equivocarse, ganar, mostrarle al de al lado.
+            </p>
+            <p className="text-body" style={{ color: 'var(--gl-gray-dark)', marginBottom: '1rem' }}>
+              ¿Recuerda el último material impreso que le entregaron en una feria? ¿Recuerda algo que lo hizo emocionarse?
+              Esa diferencia es lo que construimos.
+            </p>
+            <h3 className="text-h3" style={{ margin: '0.5rem', color: 'var(--gl-text-on-light)' }}>
+              Una experiencia Gen.Lab le permite al visitante interactuar, dejar su sello y recibir algo personalizado —
+            </h3>
+            <p className="text-body" style={{ color: 'var(--gl-gray-dark)', marginTop: '2rem' }}>
+              Saber que su forma de pensar importa, que no todo es genérico. Puede tocar, retar, explorar, fabricar,
+              competir, fotografiarse, llevarse un avatar suyo. Y mientras lo hace, su marca está alrededor — no encima.
+              Detrás hay un ecosistema completo: un catálogo de experiencias listas para usar, desarrollo a la medida
+              cuando lo necesita, y hardware modular que opera en cualquier parte del mundo. Sensores de movimiento,
+              pantallas táctiles, proyección, cámaras 3D, impresión instantánea — la herramienta correcta para el momento
+              que quiere crear.
+            </p>
+          </div>
+
+          <div style={{ flex: '1 1 300px', maxWidth: '480px' }}>
+            <img
+              src={experienciaImg}
+              alt="La experiencia Gen.Lab"
+              style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '4px' }}
+            />
+          </div>
         </div>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>

@@ -11,6 +11,7 @@ const ecosistemas = [
     color: 'var(--gl-blue-primary)',
     tagline: 'Captura íntima. Fricción cero. El visitante toca, juega y deja sus datos sin sentir que llenó un formulario.',
     paraQue: 'Stands comerciales, espacios pequeños, registro de contactos calificados. Cuando lo importante es construir base de datos sin asustar a la gente con un formulario tradicional.',
+    tecnologia: 'En cualqueir dispositivo tocuh como móvil, tableta, tótem es muy flexible',
     emocion: 'Curiosidad inicial, enganche con la mecánica, satisfacción al ganar, orgullo de mostrar el premio. Una experiencia individual que termina en una conversación con su equipo.',
     juegos: [
       { name: 'Digital Scratch & Win — Rasca y Gana Digital', tag: 'Mayor conversión del portafolio', desc: 'El visitante registra sus datos en el tótem y rasca con el dedo una superficie virtual para descubrir un premio con efectos de casino. Tasas de participación superiores al 85%. Ideal para lanzamientos, ferias B2C y activaciones de canal.' },
@@ -41,7 +42,8 @@ const ecosistemas = [
     color: 'var(--gl-teal)',
     tagline: 'Lo físico y lo digital colisionan. Una experiencia que se siente con el cuerpo.',
     paraQue: 'Activaciones donde necesita el formato "Hero" — la atracción protagonista que define el evento entero. Cuando quiere algo que haga ruido, ocupe espacio y sea imposible de ignorar.',
-    emocion: 'Adrenalina al lanzar, euforia al acertar, complicidad con quien acompaña. Como todos saben jugar tejo o lanzar dardos, nadie siente pena de participar. Facilita el networking espontáneo entre desconocidos.',
+    emocion: 'Adrenalina al lanzar, euforia al acertar, complicidad con quien acompaña. Como todos saben jugar tejo o lanzar dardos, nadie siente pena de participar.',
+    //tecnologia: 'Proyectamos sobre una superficie física. Sensores láser detectan el punto exacto de impacto del objeto real con precisión milimétrica y disparan animaciones, sonidos y puntajes en tiempo real.',
     tecnologia: 'Proyectamos sobre una superficie física. Sensores láser detectan el punto exacto de impacto del objeto real con precisión milimétrica y disparan animaciones, sonidos y puntajes en tiempo real.',
     juegos: [
       { name: 'Tejo y Dardos Virtuales — Tradición 4.0', tag: 'Cero curva de aprendizaje', desc: 'Proyectamos la diana o la cancha de tejo sobre una pared. El usuario lanza un dardo de espuma o tejo de goma con su propia fuerza. El láser detecta el impacto y desata animaciones de fuego, sonidos y puntaje automático. Ideal para eventos corporativos, after-office, integraciones de equipo, marcas de bebidas.' },
@@ -75,7 +77,7 @@ function EcoCard({ eco, index }) {
       onMouseEnter={() => { if (videoRef.current && window.innerWidth >= 768) videoRef.current.playbackRate = 1.5; }}
       onMouseLeave={() => { if (videoRef.current) videoRef.current.playbackRate = 1; }}
     >
-      <div ref={ref} style={{ width: '100%', aspectRatio: '16/9', backgroundColor: '#000' }}>
+      <div ref={ref} style={{ width: '100%', aspectRatio: '1', backgroundColor: '#000' }}>
         <video
           ref={videoRef}
           src={eco.video}

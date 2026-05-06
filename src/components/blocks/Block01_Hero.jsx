@@ -59,10 +59,17 @@ export function Block01_Hero() {
       <Container className="hero-content" style={{ position: 'relative', zIndex: 1, paddingBottom: '2rem' }}>
         <div style={{ maxWidth: '900px' }}>
           <h1 className="text-display text-primary" style={{ marginBottom: '1.5rem', color: 'white' }}>
-            Convierta su evento en una experiencia que las personas  no solo visitan... lo recuerdan.
+            Lo que se vive, no se olvida
           </h1>
-          <p className="text-body-lg text-secondary" style={{ marginBottom: '3rem', maxWidth: '700px' }}>
-            Diseñamos y operamos experiencias interactivas — pantallas, sensores, juegos físico-digitales — que detienen a la gente, la hacen jugar, y le entregan a usted un reporte con quién pasó, cuánto tiempo y qué hizo. Stand de feria, lanzamiento de producto, activación de canal, evento corporativo: Gen.Lab transforma cualquier espacio en interacción medible.
+          <p className="text-body-lg text-secondary" style={{ marginBottom: '2rem', maxWidth: '700px' }}>
+            En<span style={{color: 'var(--gl-orange)',fontWeight:'bold'}} > Gen.Lab </span> <br/>
+            convertimos lo invisible en <span style={{color: 'var(--gl-orange)',fontWeight:'bold'}} >atractivo.</span> <br/>
+            Lo atractivo en <span style={{color: 'var(--gl-orange)',fontWeight:'bold'}} >atención.</span><br/> 
+            Y la atención en <span style={{color: 'var(--gl-orange)',fontWeight:'bold'}} >resultados.</span> <br/>
+            Creamos experiencias interactivas que hacen que las personas se detengan, participen y se involucren.
+        
+           </p> <p className="text-body-lg text-secondary" style={{ marginBottom: '2rem', maxWidth: '700px' }}>
+              Eventos, activaciones o espacios permanentes —retail, hoteles o venues—: todo se convierte en una experiencia que se vive, se recuerda y se mide.  
           </p>
           
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>

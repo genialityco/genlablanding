@@ -1,11 +1,14 @@
 import React from 'react';
 import { Section } from '../layout/Section';
 import { ScratchCard } from '../interactions/ScratchCard';
+import imgAndicom from '../../assets/images/caso_de_exito_ANDICOM.jpeg';
+import imgBetplay from '../../assets/images/caso_de_exito_betplay.jpeg';
+import imgSured from '../../assets/images/caso_de_exito_SURED.jpeg';
 
 const casos = [
-  { id: 1, category: "Marca de bebidas, Feria Anato 2025", metric: "2.847 contactos en 3 días", quote: "Transformamos un pasillo vacío en el stand con más filas de la feria. Los vecinos nos preguntaban qué estábamos haciendo.", eco: "TOUCH" },
-  { id: 2, category: "Telecomunicaciones, Evento Corporativo", metric: "Dwell time prom. 4:12 min", quote: "La gente no solo se detuvo, se quedó jugando y compitiendo. Generó conversación entre personas que no se conocían.", eco: "MOTION & VISION" },
-  { id: 3, category: "Financiero, Activación en C.C.", metric: "78% completaron el reto", quote: "8 de cada 10 visitantes terminaron el juego. Esa es la mejor prueba de que la experiencia conectó — la gente no se rinde a mitad de camino cuando algo realmente le importa.", eco: "PHYGITAL" }
+  { id: 1, category: "Lenovo, ANDICOM", metric: "Más de 1.000 contactos y entrevistas", quote: "Transformamos su presencia en un laboratorio vivo con su propia tecnología.", eco: "Pygital, Motion & Vision, and more", image: imgAndicom },
+  { id: 2, category: "Betplay, Activaciones en varios eventos", metric: "Tiempo permanencia +de 5 minutos", quote: "La gente no solo se detuvo, se quedó jugando y compitiendo. Generó conversación entre personas que no se conocían.", eco: "MOTION & VISION", image: imgBetplay },
+  { id: 3, category: "SuRed, Lanzamiento USDT", metric: "Todos los invitados satisfechos y sorprendidos", quote: "Actividades interactivas moviles, mezcladas con alimentos y bebidas temáticos, un lanzamiento para siempre recordar", eco: "PHYGITAL", image: imgSured }
 ];
 
 export function Block06_Casos() {

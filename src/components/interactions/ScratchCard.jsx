@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 
-export function ScratchCard({ category, metric, quote, eco }) {
+export function ScratchCard({ category, metric, quote, eco, image }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const [isRevealed, setIsRevealed] = useState(false);
@@ -107,6 +107,10 @@ export function ScratchCard({ category, metric, quote, eco }) {
 
   return (
     <div ref={containerRef} style={{ position: 'relative', flex: '0 0 80vw', maxWidth: '400px', aspectRatio: '3/4', borderRadius: '1rem', overflow: 'hidden', scrollSnapAlign: 'start', backgroundColor: 'var(--gl-bg-elevated)', border: '1px solid var(--gl-gray-dark)' }}>
+      {image && (
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+      )}
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 100%)' }} />
       <div style={{ position: 'absolute', inset: 0, padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
           <span className="tag text-secondary" style={{ marginBottom: '1rem', display: 'block' }}>{category}</span>
